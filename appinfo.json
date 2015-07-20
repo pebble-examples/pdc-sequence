@@ -1,0 +1,24 @@
+{
+  "uuid": "7BAE423F-C70A-4FF9-9793-73E6D056CD0A",
+  "shortName": "pdc-sequence",
+  "longName": "pdc-sequence",
+  "companyName": "Pebble Technology",
+  "versionLabel": "1.0",
+  "sdkVersion": "3",
+  "targetPlatforms": [ "basalt" ],
+  "watchapp": {
+    "watchface": false
+  },
+  "appKeys": {
+    "dummy": 0
+  },
+  "resources": {
+    "media": [
+      {
+        "type": "raw",
+        "name": "CLOCK_SEQUENCE",
+        "file": "clock_sequence.pdc"
+      }
+    ]
+  }
+}
