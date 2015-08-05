@@ -16,8 +16,48 @@
     "media": [
       {
         "type": "raw",
-        "name": "CLOCK_SEQUENCE",
-        "file": "clock_sequence.pdc"
+        "name": "ALARM_SEQUENCE",
+        "file": "alarm_sequence.pdc"
+      },
+      {
+        "type": "raw",
+        "name": "CHARGING_SEQUENCE",
+        "file": "charging_sequence.pdc"
+      },
+      {
+        "type": "raw",
+        "name": "CONFIRM_SEQUENCE",
+        "file": "confirm_sequence.pdc"
+      },
+      {
+        "type": "raw",
+        "name": "DELETE_PIN_SEQUENCE",
+        "file": "delete_pin_sequence.pdc"
+      },
+      {
+        "type": "raw",
+        "name": "DELETED_SEQUENCE",
+        "file": "deleted_sequence.pdc"
+      },
+      {
+        "type": "raw",
+        "name": "DISMISS_SEQUENCE",
+        "file": "dismiss_sequence.pdc"
+      },
+      {
+        "type": "raw",
+        "name": "MUTE_SEQUENCE",
+        "file": "mute_sequence.pdc"
+      },
+      {
+        "type": "raw",
+        "name": "SENT_SEQUENCE",
+        "file": "sent_sequence.pdc"
+      },
+      {
+        "type": "raw",
+        "name": "UNMUTE_SEQUENCE",
+        "file": "unmute_sequence.pdc"
       }
     ]
   }

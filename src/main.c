@@ -3,18 +3,61 @@
 // Milliseconds between frames
 #define DELTA 13
 
-static int s_index = 0;
+// Number of resources
+#define NUM_SEQUENCES 9
 
 static Window *s_main_window;
 static Layer *s_canvas_layer;
 static GDrawCommandSequence *s_command_seq;
+static AppTimer *s_timer;
+
+static int s_index = 0, s_resource_index = 1;
 
 static void next_frame_handler(void *context) {
   // Draw the next frame
   layer_mark_dirty(s_canvas_layer);
 
   // Continue the sequence
-  app_timer_register(DELTA, next_frame_handler, NULL);
+  s_timer = app_timer_register(DELTA, next_frame_handler, NULL);
+}
+
+static void change_sequence(int delta) {
+  // Cancel current animation
+  if(s_timer) {
+    app_timer_cancel(s_timer);
+  }
+  if(s_command_seq) {
+    gdraw_command_sequence_destroy(s_command_seq);
+  }
+
+  // Load the next resource
+  s_resource_index += delta;
+  if(s_resource_index > NUM_SEQUENCES) {
+    // 0 is a reserved resource ID
+    s_resource_index = 1;
+  }
+  if(s_resource_index < 1) {
+    s_resource_index = NUM_SEQUENCES;
+  }
+  s_command_seq = gdraw_command_sequence_create_with_resource(s_resource_index);
+  window_set_background_color(s_main_window, (GColor){ .a = 3, .r = rand() % 4, .g = rand() % 4, .b = rand() % 4 });
+
+  // Start the next animation  
+  s_index = 0;
+  s_timer = app_timer_register(DELTA, next_frame_handler, NULL);
+}
+
+static void up_click_handler(ClickRecognizerRef recognizer, void *context) {
+  change_sequence(-1);
+}
+
+static void down_click_handler(ClickRecognizerRef recognizer, void *context) {
+  change_sequence(1);
+}
+
+static void config_provider(void *context) {
+  window_single_click_subscribe(BUTTON_ID_UP, up_click_handler);
+  window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler);
 }
 
 static void update_proc(Layer *layer, GContext *ctx) {
@@ -55,12 +98,11 @@ static void main_window_unload(Window *window) {
 }
 
 static void init() {
-  light_enable(true);
-
-  // Load the sequence
-  s_command_seq = gdraw_command_sequence_create_with_resource(RESOURCE_ID_CLOCK_SEQUENCE);
+  // Load the first sequence
+  s_command_seq = gdraw_command_sequence_create_with_resource(1);
 
   s_main_window = window_create();
+  window_set_click_config_provider(s_main_window, config_provider);
   window_set_window_handlers(s_main_window, (WindowHandlers) {
     .load = main_window_load,
     .unload = main_window_unload,
@@ -68,7 +110,7 @@ static void init() {
   window_stack_push(s_main_window, true);
 
   // Start the animation
-  app_timer_register(DELTA, next_frame_handler, NULL);
+  s_timer = app_timer_register(DELTA, next_frame_handler, NULL);
 }
 
 static void deinit() {
