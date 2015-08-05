@@ -1,6 +1,6 @@
 # pdc-sequence
 
-![](screenshot.png)
+![](screenshot.gif)
 
 This example shows how to use the 
 [`Draw Commands`](http://developer.getpebble.com/docs/c/Graphics/Draw_Commands/) 
