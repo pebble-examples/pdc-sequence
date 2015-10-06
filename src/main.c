@@ -61,12 +61,18 @@ static void config_provider(void *context) {
 }
 
 static void update_proc(Layer *layer, GContext *ctx) {
+  GRect bounds = layer_get_bounds(layer);
+  GSize seq_bounds = gdraw_command_sequence_get_bounds_size(s_command_seq);
+
   // Get the next frame
   GDrawCommandFrame *frame = gdraw_command_sequence_get_frame_by_index(s_command_seq, s_index);
 
   // If another frame was found, draw it    
   if (frame) {
-    gdraw_command_frame_draw(ctx, s_command_seq, frame, GPoint(0, 30));
+    gdraw_command_frame_draw(ctx, s_command_seq, frame, GPoint(
+      (bounds.size.w - seq_bounds.w) / 2, 
+      (bounds.size.h - seq_bounds.h) / 2
+    ));
   }
 
   // Advance to the next frame, wrapping if neccessary
@@ -83,7 +89,7 @@ static void main_window_load(Window *window) {
   GRect bounds = layer_get_bounds(window_layer);
 
   // Create the canvas Layer
-  s_canvas_layer = layer_create(GRect(30, 30, bounds.size.w, bounds.size.h));
+  s_canvas_layer = layer_create(bounds);
 
   // Set the LayerUpdateProc
   layer_set_update_proc(s_canvas_layer, update_proc);
