@@ -1,7 +1,7 @@
 #include <pebble.h>
 
-// Milliseconds between frames
-#define DELTA 13
+// Milliseconds between frames - 30 FPS max
+#define DELTA 33
 
 // Number of resources
 #define NUM_SEQUENCES 9
@@ -42,7 +42,7 @@ static void change_sequence(int delta) {
   s_command_seq = gdraw_command_sequence_create_with_resource(s_resource_index);
   window_set_background_color(s_main_window, (GColor){ .a = 3, .r = rand() % 4, .g = rand() % 4, .b = rand() % 4 });
 
-  // Start the next animation  
+  // Start the next animation
   s_index = 0;
   s_timer = app_timer_register(DELTA, next_frame_handler, NULL);
 }
@@ -67,10 +67,10 @@ static void update_proc(Layer *layer, GContext *ctx) {
   // Get the next frame
   GDrawCommandFrame *frame = gdraw_command_sequence_get_frame_by_index(s_command_seq, s_index);
 
-  // If another frame was found, draw it    
+  // If another frame was found, draw it
   if (frame) {
     gdraw_command_frame_draw(ctx, s_command_seq, frame, GPoint(
-      (bounds.size.w - seq_bounds.w) / 2, 
+      (bounds.size.w - seq_bounds.w) / 2,
       (bounds.size.h - seq_bounds.h) / 2
     ));
   }
