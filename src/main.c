@@ -40,7 +40,9 @@ static void change_sequence(int delta) {
     s_resource_index = NUM_SEQUENCES;
   }
   s_command_seq = gdraw_command_sequence_create_with_resource(s_resource_index);
-  window_set_background_color(s_main_window, (GColor){ .a = 3, .r = rand() % 4, .g = rand() % 4, .b = rand() % 4 });
+
+  GColor random_color = (GColor){ .a = 3, .r = rand() % 4, .g = rand() % 4, .b = rand() % 4 };
+  window_set_background_color(s_main_window, PBL_IF_COLOR_ELSE(random_color, GColorWhite));
 
   // Start the next animation
   s_index = 0;
